@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Research & Expertise Management System
 
 ## CS 5614 Database Project
