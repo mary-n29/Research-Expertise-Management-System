@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Research & Expertise Management System
 
 ## CS 5614 Database Project
@@ -82,3 +83,6 @@ Research-Expertise-Management-System/
 │   └── research_db_sample_data.sql
 │
 └── db_connection.py
+=======
+# Research-Expertise-Management-System
+>>>>>>> 24f100da7b04c35e27be15b2267e5345b517196b
