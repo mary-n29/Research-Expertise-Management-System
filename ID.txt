@@ -1,0 +1,7 @@
+Name: Mary Nerayo
+Project: Research & Expertise Management System
+Course: CS 5614
+Semester: Summer II 2026
+Course Reference: CS5614-S2/2026
+DBMS: MySQL 8.0
+Interface Language: Python
