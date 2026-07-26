@@ -3,9 +3,8 @@ from tkinter import messagebox
 import mysql.connector
 
 
-# ---------------------------------------------------------
-# Database Connection
-# ---------------------------------------------------------
+
+# db connection
 
 connection = None
 
@@ -67,20 +66,13 @@ def close_connection():
     )
 
 
-# ---------------------------------------------------------
-# Main Window
-# ---------------------------------------------------------
+#main window
 
 root = tk.Tk()
 
 root.title("CS 5614 - Database Connection")
 root.geometry("600x550")
 root.resizable(False, False)
-
-
-# ---------------------------------------------------------
-# Header
-# ---------------------------------------------------------
 
 header_frame = tk.Frame(root)
 
@@ -122,9 +114,7 @@ separator.pack(
 )
 
 
-# ---------------------------------------------------------
-# Connection Status
-# ---------------------------------------------------------
+#connection status
 
 connection_heading = tk.Label(
     root,
@@ -154,9 +144,7 @@ detail_label = tk.Label(
 detail_label.pack(pady=(0, 20))
 
 
-# ---------------------------------------------------------
-# Database Information
-# ---------------------------------------------------------
+#db info
 
 info_frame = tk.LabelFrame(
     root,
@@ -221,9 +209,7 @@ tk.Label(
 ).grid(row=3, column=1, sticky="w", padx=10)
 
 
-# ---------------------------------------------------------
-# Buttons
-# ---------------------------------------------------------
+#buttons
 
 button_frame = tk.Frame(root)
 
@@ -258,8 +244,6 @@ close_button.grid(
 )
 
 
-# ---------------------------------------------------------
-# Start Application
-# ---------------------------------------------------------
+#start app
 
 root.mainloop()
