@@ -133,6 +133,42 @@ def open_researcher_window():
 
     table_frame.pack(side="right", fill="both", expand=True, padx=(20,0))
 
+    # ---------- SEARCH ----------
+
+    search_frame = tk.Frame(table_frame, bg="white")
+    search_frame.pack(fill="x", pady=(0, 10))
+
+    tk.Label(
+        search_frame,
+        text="Search:",
+        bg="white",
+        font=("Segoe UI", 10, "bold")
+    ).pack(side="left", padx=(5,5))
+
+    search_entry = ttk.Entry(search_frame, width=30)
+    search_entry.pack(side="left", padx=5)
+
+    ttk.Button(
+        search_frame,
+        text="Search",
+        command=lambda: search_researchers(
+            tree,
+            search_entry.get().strip()
+        )
+    ).pack(side="left", padx=5)
+
+    ttk.Button(
+        search_frame,
+        text="Clear",
+        command=lambda: clear_search(tree, search_entry)
+    ).pack(side="left", padx=5)
+
+    # Let pressing Enter in the search box trigger the search too
+    search_entry.bind(
+        "<Return>",
+        lambda event: search_researchers(tree, search_entry.get().strip())
+    )
+
     columns = (
         "ID",
         "First Name",
@@ -175,6 +211,46 @@ def open_researcher_window():
         text="Back",
         command=window.destroy
     ).pack(pady=10)
+
+def search_researchers(tree, search_text):
+    """Filter the researcher table by name, department, or position."""
+
+    try:
+        conn = open_connection()
+        cursor = conn.cursor()
+
+        sql = """
+        SELECT ResearcherID,
+               FName,
+               LName,
+               Department,
+               Position
+        FROM RESEARCHER
+        WHERE FName LIKE %s
+           OR LName LIKE %s
+           OR Department LIKE %s
+           OR Position LIKE %s
+        ORDER BY LName
+        """
+
+        value = "%" + search_text + "%"
+
+        cursor.execute(sql, (value, value, value, value))
+
+        for row in tree.get_children():
+            tree.delete(row)
+
+        for row in cursor.fetchall():
+            tree.insert("", tk.END, values=row)
+
+    except Exception as e:
+        messagebox.showerror("Error", str(e))
+
+
+def clear_search(tree, search_entry):
+    search_entry.delete(0, tk.END)
+    load_researchers(tree)
+
 
 def populate_form(tree, entries):
     """Fill the form fields with the values of the row selected in the table."""

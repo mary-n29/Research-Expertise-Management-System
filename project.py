@@ -127,6 +127,41 @@ def open_project_window():
 
     table_frame.pack(side="right", fill="both", expand=True, padx=(20, 0))
 
+    # ---------- SEARCH ----------
+
+    search_frame = tk.Frame(table_frame, bg="white")
+    search_frame.pack(fill="x", pady=(0, 10))
+
+    tk.Label(
+        search_frame,
+        text="Search:",
+        bg="white",
+        font=("Segoe UI", 10, "bold")
+    ).pack(side="left", padx=(5,5))
+
+    search_entry = ttk.Entry(search_frame, width=30)
+    search_entry.pack(side="left", padx=5)
+
+    ttk.Button(
+        search_frame,
+        text="Search",
+        command=lambda: search_projects(
+            tree,
+            search_entry.get().strip()
+        )
+    ).pack(side="left", padx=5)
+
+    ttk.Button(
+        search_frame,
+        text="Clear",
+        command=lambda: clear_search(tree, search_entry)
+    ).pack(side="left", padx=5)
+
+    search_entry.bind(
+        "<Return>",
+        lambda event: search_projects(tree, search_entry.get().strip())
+    )
+
     columns = (
         "ID",
         "Name",
@@ -178,6 +213,48 @@ def open_project_window():
         text="Back",
         command=window.destroy
     ).pack(pady=10)
+
+
+def search_projects(tree, search_text):
+    """Filter the project table by name, description, or status."""
+
+    try:
+        conn = open_connection()
+        cursor = conn.cursor()
+
+        sql = """
+        SELECT ProjectID,
+               PName,
+               PDescription,
+               FundingAmount,
+               Status,
+               StartDate,
+               EndDate,
+               SponsorID
+        FROM PROJECT
+        WHERE PName LIKE %s
+           OR PDescription LIKE %s
+           OR Status LIKE %s
+        ORDER BY ProjectID
+        """
+
+        value = "%" + search_text + "%"
+
+        cursor.execute(sql, (value, value, value))
+
+        for row in tree.get_children():
+            tree.delete(row)
+
+        for row in cursor.fetchall():
+            tree.insert("", tk.END, values=row)
+
+    except Exception as e:
+        messagebox.showerror("Error", str(e))
+
+
+def clear_search(tree, search_entry):
+    search_entry.delete(0, tk.END)
+    load_projects(tree)
 
 
 def populate_form(tree, entries):

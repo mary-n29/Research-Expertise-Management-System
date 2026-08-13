@@ -5,3 +5,9 @@ Semester: Summer II 2026
 Course Reference: CS5614-S2/2026
 DBMS: MySQL 8.0
 Interface Language: Python
+
+Notes:
+Run create_database.sql,
+create_tables.sql,
+and sample_data.sql
+before running main.py.

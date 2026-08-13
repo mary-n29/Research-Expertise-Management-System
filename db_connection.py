@@ -10,7 +10,7 @@ def open_connection():
         connection = mysql.connector.connect(
             host="localhost",
             user="root",
-            password="xxxxxx",
+            password="YourNewPasswordHere!",
             database="ResearchExpertiseDB"
         )
 
